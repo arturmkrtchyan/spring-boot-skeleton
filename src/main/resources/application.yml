@@ -1,0 +1,16 @@
+
+jwt:
+  header: Authorization
+  prefix: Bearer
+  secret: -SECRET-
+  expiration: 604800
+
+logging:
+  file: ./log/polyglotapps.log
+
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true

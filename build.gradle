@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('io.jsonwebtoken:jjwt:0.7.0')
+
+
+	runtime('org.springframework.boot:spring-boot-devtools')
+
+	runtime('mysql:mysql-connector-java')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	runtime("org.flywaydb:flyway-core")
+
+	//compile('org.flywaydb:flyway-core')
+	runtime('com.h2database:h2')
+}
+
+test {
+	//we want display the following test events
+	testLogging {
+		displayGranularity = 2 // display "org.someClass > org.someMethod"
+		exceptionFormat = 'FULL'
+		events "PASSED", "FAILED", "SKIPPED" // "STARTED", "STANDARD_OUT",
+		afterSuite { desc, result ->
+			// Match the outermost suite
+			if (!desc.parent) {
+				println "\n\nTests run: ${result.testCount}, Failures: ${result.failedTestCount}, Skipped: ${result.skippedTestCount}\n\n"
+			}
+		}
+	}
+}
